@@ -5,10 +5,12 @@ import (
 	"time"
 )
 
+// AuthenticationRequest is used to query the "/auth" API endpoint for information.
 type AuthenticationRequest struct {
 	*BaseRequest
 }
 
+// Do will execute the "/auth" query against the given API.
 func (req *AuthenticationRequest) Do(api *Api) (r *AuthenticationResponse, err error) {
 	r = newAuthenticationResponse()
 
@@ -25,6 +27,7 @@ func (req *AuthenticationRequest) Do(api *Api) (r *AuthenticationResponse, err e
 	return
 }
 
+// NewAuthenticationRequest will a clean API request against "/auth".
 func NewAuthenticationRequest() *AuthenticationRequest {
 	return &AuthenticationRequest{
 		&BaseRequest{

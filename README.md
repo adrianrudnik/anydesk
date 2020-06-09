@@ -1,6 +1,7 @@
 # anydesk-api
 
 Unofficial go based API client library
+[![go report card](https://goreportcard.com/badge/github.com/adrianrudnik/anydesk-api)](https://goreportcard.com/report/github.com/adrianrudnik/anydesk-api)
 
 ## Usage
 

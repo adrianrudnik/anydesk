@@ -1,5 +1,6 @@
 package anydesk
 
+// AuthenticationResponse containts all available fields returned by the `/auth` API call.
 type AuthenticationResponse struct {
 	Result           string `json:"result"`
 	Error            string `json:"error"`

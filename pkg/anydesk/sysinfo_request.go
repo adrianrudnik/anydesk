@@ -5,10 +5,12 @@ import (
 	"time"
 )
 
+// SysinfoRequest is used to query the "/sysinfo" API endpoint for information.
 type SysinfoRequest struct {
 	*BaseRequest
 }
 
+// Do will execute the "/sysinfo" query against the given API.
 func (req *SysinfoRequest) Do(api *Api) (resp *SysinfoResponse, err error) {
 	resp = newSysinfoResponse()
 
@@ -24,6 +26,7 @@ func (req *SysinfoRequest) Do(api *Api) (resp *SysinfoResponse, err error) {
 	return
 }
 
+// NewSysinfoRequest will a clean API request against "/sysinfo".
 func NewSysinfoRequest() *SysinfoRequest {
 	return &SysinfoRequest{
 		&BaseRequest{

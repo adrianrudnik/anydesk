@@ -9,10 +9,12 @@ import (
 	"strings"
 )
 
+// ApiRequest is the basic interface used for all compatible API requests.
 type ApiRequest interface {
 	GetHttpRequest(api *Api) (req *http.Request, err error)
 }
 
+// BaseRequest contains the base information required to work against the API.
 type BaseRequest struct {
 	Method    string
 	Resource  string
@@ -33,6 +35,7 @@ func (r *BaseRequest) GetRequestString() string {
 	return fmt.Sprintf("%s\n%s\n%d\n%s", strings.ToUpper(r.Method), r.Resource, r.Timestamp, r.GetContentHash())
 }
 
+// GetHttpRequest will return the prepared HTTP request that can be used by a http.Client
 func (r *BaseRequest) GetHttpRequest(api *Api) (req *http.Request, err error) {
 	endpoint := fmt.Sprintf("%s%s", api.ApiEndpoint, r.Resource)
 

@@ -8,6 +8,7 @@ import (
 	"testing"
 )
 
+// NewApiTestServer will create a AnyDesk API stub to work tests against.
 func NewApiTestServer(t *testing.T, url string, outputFile string, statusCode int) *httptest.Server {
 	// Create test ts
 	return httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
@@ -27,6 +28,7 @@ func NewApiTestServer(t *testing.T, url string, outputFile string, statusCode in
 	}))
 }
 
+// NewApiTestClient will create a AnyDesk API client that accepts an API stub server.
 func NewApiTestClient(t *testing.T, ts *httptest.Server, licenseId string, apiPassword string) (api *Api) {
 	api = NewApi(licenseId, apiPassword)
 	api.ApiEndpoint = ts.URL

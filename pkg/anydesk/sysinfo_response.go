@@ -1,5 +1,6 @@
 package anydesk
 
+// SysinfoResponse containts all available fields returned by the `/sysinfo` API call.
 type SysinfoResponse struct {
 	Name       string `json:"name"`
 	ApiVersion string `json:"api-ver"`
@@ -7,12 +8,12 @@ type SysinfoResponse struct {
 		Name             string `json:"name"`
 		ExpiresTimestamp int64  `json:"expires"`
 		HasExpired       bool   `json:"has-expired"` // undocumented or deprecated
-		MaxClients       int  `json:"max-clients"`
-		MaxSessions      int  `json:"max-sessions"`
-		MaxSessionTime   int  `json:"max-session-time"`
+		MaxClients       int    `json:"max-clients"`
+		MaxSessions      int    `json:"max-sessions"`
+		MaxSessionTime   int    `json:"max-session-time"`
 		Namespaces       []struct {
 			Name string `json:"name"`
-			Size int  `json:"size"`
+			Size int    `json:"size"`
 		} `json:"namespaces"`
 		Id          string `json:"license-id"`
 		Key         string `json:"license-key"`
