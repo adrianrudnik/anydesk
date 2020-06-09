@@ -1,6 +1,6 @@
 package anydesk
 
-// SysinfoResponse containts all available fields returned by the `/sysinfo` API call.
+// SysinfoResponse contains all available fields returned by the `/sysinfo` API call.
 type SysinfoResponse struct {
 	Name       string `json:"name"`
 	ApiVersion string `json:"api-ver"`
