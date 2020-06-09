@@ -1,0 +1,28 @@
+{
+  "api-ver": "1.1",
+  "clients": {
+    "online": 4,
+    "total": 8
+  },
+  "license": {
+    "api-password": "TEST_APIPASS",
+    "expires": 1623920819,
+    "has-expired": true,
+    "license-id": "TEST_LICENSE_ID",
+    "license-key": "TEST_LICENSE_KEY",
+    "max-clients": -2,
+    "max-session-time": -3,
+    "max-sessions": 4,
+    "name": "TEST_LICENSE_NAME",
+    "namespaces": [
+
+    ],
+    "power-user": true
+  },
+  "name": "AnyDesk REST",
+  "sessions": {
+    "active": 2,
+    "total": 599
+  },
+  "standalone": true
+}
