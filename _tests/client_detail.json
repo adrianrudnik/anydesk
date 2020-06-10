@@ -1,0 +1,47 @@
+{
+  "alias": "xyz",
+  "cid": 100000000,
+  "client-version": "1.2.3",
+  "comment": "TEST-COMMENTA",
+  "last-sessions": [
+    {
+      "active": false,
+      "comment": null,
+      "dst_user_ref": null,
+      "duration": 123,
+      "end-time": 1590504637,
+      "from": {
+        "alias": "TEST_ALIAS1",
+        "cid": 100000000
+      },
+      "sid": "SESSIONA",
+      "src_user_ref": null,
+      "start-time": 1590504626,
+      "to": {
+        "alias": null,
+        "cid": 100000001
+      }
+    },
+    {
+      "active": true,
+      "comment": "TEST_COMMENTB",
+      "dst_user_ref": null,
+      "duration": 321,
+      "end-time": 1587473931,
+      "from": {
+        "alias": null,
+        "cid": 100000010
+      },
+      "sid": "SESSIONB",
+      "src_user_ref": null,
+      "start-time": 1587473919,
+      "to": {
+        "alias": "TEST_ALIAS2",
+        "cid": 100000000
+      }
+    }
+  ],
+  "online": true,
+  "online-time": 456,
+  "user_ref": null
+}
