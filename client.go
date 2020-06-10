@@ -48,7 +48,7 @@ func NewClientDetailRequest(clientID int64) *ClientDetailRequest {
 	}
 }
 
-// ClientDetailResponse contains all available fields returned by the `/auth` API call.
+// ClientDetailResponse contains all fields available to the client details API resource.
 type ClientDetailResponse struct {
 	// ID of the client the response is about.
 	ClientID int64 `json:"cid"`
