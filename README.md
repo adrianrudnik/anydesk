@@ -1,7 +1,8 @@
-# anydesk-api
+# AnyDesk REST API client
 
-Unofficial go based API client library
+Unoffical REST API client, written in Go.
 
+[![GoDoc](https://godoc.org/github.com/adrianrudnik/anydesk-api?status.svg)](https://godoc.org/adrianrudnik/anydesk-api)
 [![go report card](https://goreportcard.com/badge/github.com/adrianrudnik/anydesk-api)](https://goreportcard.com/report/github.com/adrianrudnik/anydesk)
 
 ## Usage
