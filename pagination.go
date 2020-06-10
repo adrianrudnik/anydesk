@@ -7,7 +7,7 @@ const (
 	// OrderAsc indicates that you want to receive the results ascending order.
 	OrderAsc SortOrder = "asc"
 
-	// OrderDesc indicats that you want to receive the results in descencing order.
+	// OrderDesc indicates that you want to receive the results in descencing order.
 	OrderDesc SortOrder = "desc"
 )
 

@@ -51,7 +51,7 @@ func (req *SessionCommentChangeRequest) Do(api *API) (err error) {
 // NewSessionCommentChangeRequest will create an API request that will set the given comment to the given session ID.
 // Giving an empty comment string will remove the currently set comment.
 func NewSessionCommentChangeRequest(session string, comment string) *SessionCommentChangeRequest {
-	var v *string = nil
+	var v *string
 
 	if comment != "" {
 		v = &comment
