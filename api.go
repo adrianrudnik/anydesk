@@ -138,6 +138,11 @@ func (api *API) Do(request APIRequest) (body []byte, err error) {
 		d.ResponseBody = body
 	}
 
+	if resp.StatusCode == http.StatusNotFound {
+		err = &APINotFoundError{}
+		return
+	}
+
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		err = errors.New(resp.Status)
 		return
