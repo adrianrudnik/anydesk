@@ -9,6 +9,48 @@ import (
 	"time"
 )
 
+// SessionNode is the common structure of session information produced by AnyDesk clients.
+type SessionNode struct {
+	// Indicatges of the session is currently active.
+	Active bool `json:"active"`
+
+	// The unique sesson ID for this connection.
+	SessionID string `json:"sid"`
+
+	// The source client responsible for this session.
+	Source *ClientNode `json:"from"`
+
+	// The connected client of the session.
+	Target *ClientNode `json:"to"`
+
+	// Connection start as unix-timestamp.
+	StartTimestamp int64 `json:"start-time"`
+
+	// Connection end as unix-timestamp.
+	EndTimestamp int64 `json:"end-time"`
+
+	// Total duration of the session in seconds.
+	DurationInSeconds int64 `json:"duration"`
+
+	// The comment left by the source client.
+	Comment string `json:"comment"`
+}
+
+// StartTime returns the connection start time.
+func (n *SessionNode) StartTime() time.Time {
+	return time.Unix(n.StartTimestamp, 0)
+}
+
+// EndTime returns the connection end time.
+func (n *SessionNode) EndTime() time.Time {
+	return time.Unix(n.EndTimestamp, 0)
+}
+
+// Duration returns the total duration of the session.
+func (n *SessionNode) Duration() time.Duration {
+	return time.Second * time.Duration(n.DurationInSeconds)
+}
+
 // SessionDirection defines the that connection direction  on a paginated API request.
 type SessionDirection string
 
@@ -76,16 +118,16 @@ type SessionListRequest struct {
 // SessionListSearch defines all configurable search parameters for NewSessionListRequest()
 type SessionListSearch struct {
 	// Limit search to client ID
-	ClientID string
+	ClientID int64
 
 	// Limit search to given sessiond direction, [in, out, inout]
 	Direction SessionDirection
 
 	// Limit search to sessions after the given time
-	TimeFrom *time.Time
+	TimeFrom time.Time
 
 	// Limit search to sessions up to the given time
-	TimeTo *time.Time
+	TimeTo time.Time
 }
 
 // Do will execute the "/sessions" query against the given API.
@@ -108,8 +150,8 @@ func NewSessionListRequest(search *SessionListSearch) *SessionListRequest {
 	if search != nil {
 		q = &url.Values{}
 
-		if search.ClientID != "" {
-			q.Set("cid", search.ClientID)
+		if search.ClientID > 0 {
+			q.Set("cid", strconv.FormatInt(search.ClientID, 10))
 		}
 
 		if search.Direction == DirectionInOut ||
@@ -118,11 +160,11 @@ func NewSessionListRequest(search *SessionListSearch) *SessionListRequest {
 			q.Set("direction", string(search.Direction))
 		}
 
-		if search.TimeFrom != nil {
+		if !search.TimeFrom.IsZero() {
 			q.Set("from", strconv.FormatInt(search.TimeFrom.Unix(), 10))
 		}
 
-		if search.TimeTo != nil {
+		if !search.TimeTo.IsZero() {
 			q.Set("to", strconv.FormatInt(search.TimeTo.Unix(), 10))
 		}
 
