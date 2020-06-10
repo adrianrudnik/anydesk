@@ -33,7 +33,6 @@ func NewSysinfoRequest() *SysinfoRequest {
 			Method:    "GET",
 			Resource:  "/sysinfo",
 			Timestamp: time.Now().Unix(),
-			Content:   []byte(""),
 		},
 	}
 }

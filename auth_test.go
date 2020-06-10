@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"testing"
-	"time"
 )
 
 func TestNewAuthenticationRequest(t *testing.T) {
@@ -25,12 +24,6 @@ func TestNewAuthenticationRequest(t *testing.T) {
 
 func ExampleNewAuthenticationRequest() {
 	api := NewApi(os.Getenv("LICENSE_ID"), os.Getenv("API_PASSWORD"))
-
-	// Optional: Decrease timeouts
-	api.HttpClient = &http.Client{Timeout: 5 * time.Second}
-
-	// Optional: Switch to Enterprise API
-	api.ApiEndpoint = "https://yourinstance:8081"
 
 	request := NewAuthenticationRequest()
 	response, _ := request.Do(api)

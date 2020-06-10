@@ -1,10 +1,12 @@
 package anydesk
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 	"time"
 )
@@ -36,7 +38,6 @@ func NewApiTestClient(t *testing.T, ts *httptest.Server, licenseId string, apiPa
 	api.HttpClient = ts.Client()
 	return
 }
-
 
 func TestApi_GetRequestToken(t *testing.T) {
 	a := NewApi("1438129266231705", "UYETICGU2CT3KES")
@@ -87,4 +88,19 @@ func TestRequest_GetRequestString(t *testing.T) {
 	}
 
 	assert.Equal(t, "GET\n/auth\n1445440997\n2jmj7l5rSw0yVb/vlWAYkK/YBwk=", r.GetRequestString())
+}
+
+func ExampleNewApi() {
+	api := NewApi(os.Getenv("LICENSE_ID"), os.Getenv("API_PASSWORD"))
+
+	// Optional: Decrease timeouts
+	api.HttpClient = &http.Client{Timeout: 5 * time.Second}
+
+	// Optional: Switch to Enterprise API
+	api.ApiEndpoint = "https://yourinstance:8081"
+
+	request := NewAuthenticationRequest()
+	response, _ := request.Do(api)
+
+	fmt.Printf("Status: %s, License: %s", response.Result, response.LicenseId)
 }

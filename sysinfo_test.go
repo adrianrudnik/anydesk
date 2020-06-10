@@ -1,8 +1,10 @@
 package anydesk
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"net/http"
+	"os"
 	"testing"
 )
 
@@ -35,4 +37,17 @@ func TestNewSysinfoRequest(t *testing.T) {
 	a.Equal(2, resp.Sessions.Active)
 	a.Equal(599, resp.Sessions.Total)
 	a.Equal(true, resp.Standalone)
+}
+
+func ExampleNewSysinfoRequest() {
+	api := NewApi(os.Getenv("LICENSE_ID"), os.Getenv("API_PASSWORD"))
+
+	request := NewSysinfoRequest()
+	response, _ := request.Do(api)
+
+	fmt.Printf("API: %s, Max Session: %d, Active Sessions: %d",
+		response.ApiVersion,
+		response.License.MaxSessions,
+		response.Sessions.Active,
+	)
 }

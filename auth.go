@@ -34,21 +34,35 @@ func NewAuthenticationRequest() *AuthenticationRequest {
 			Method:    "GET",
 			Resource:  "/auth",
 			Timestamp: time.Now().Unix(),
-			Content:   []byte(""),
 		},
 	}
 }
 
 // AuthenticationResponse contains all available fields returned by the `/auth` API call.
 type AuthenticationResponse struct {
-	Result           string `json:"result"`
-	Error            string `json:"error"`
-	Code             string `json:"code"`
-	Method           string `json:"method"`
-	Resource         string `json:"method"`
+	// Status result, should be "success".
+	Result string `json:"result"`
+
+	// The humen readable error message.
+	Error string `json:"error"`
+
+	// Specific error code as string, i.e. "invalid_token".
+	Code string `json:"code"`
+
+	// Echoing the failed request method.
+	Method string `json:"method"`
+
+	// Echoing the failed request resource.
+	Resource string `json:"resource"`
+
+	// Echoping the failed request timestamp.
 	RequestTimestamp string `json:"request-time"`
-	ContentHash      string `json:"content-hash"`
-	LicenseId        string `json:"license-id"`
+
+	// Echoing the failed request content hash.
+	ContentHash string `json:"content-hash"`
+
+	// Echoing the API license ID on success.
+	LicenseId string `json:"license-id"`
 }
 
 func newAuthenticationResponse() *AuthenticationResponse {

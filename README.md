@@ -11,7 +11,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/adrianrudnik/anydesk-api/pkg/anydesk"
+	"github.com/adrianrudnik/anydesk"
 	"net/http"
 	"os"
 	"time"
