@@ -16,12 +16,12 @@ import (
 )
 
 const (
-	// Used by various calls to indicate unlimited results/items
+	// Infinite is used by various calls to indicate unlimited results/items
 	Infinite = int64(-1)
 )
 
-// ApiRequest is the basic interface used for all compatible API requests.
-type ApiRequest interface {
+// APIRequest is the basic interface used for all compatible API requests.
+type APIRequest interface {
 	// Returns debug information
 	GetDebug() *DebugInfo
 
@@ -30,52 +30,53 @@ type ApiRequest interface {
 	GetRequestDetails() *BaseRequest
 
 	// Returns the http.Request that is composed, signed and ready to execute
-	GetHttpRequest(api *Api) (req *http.Request, err error)
+	GetHTTPRequest(api *API) (req *http.Request, err error)
 }
 
-type PaginatedApiRequest interface {
-	ApiRequest
+// PaginatedAPIRequest is the base interface for all api requests that support pagination.
+type PaginatedAPIRequest interface {
+	APIRequest
 
 	// Returns the pagination options for the current request
 	GetPaginationOptions() *PaginationOptions
 }
 
-// Api contains all information about the AnyDesk API endpoint and configurable options.
-type Api struct {
+// API contains all information about the AnyDesk API endpoint and configurable options.
+type API struct {
 	// API license ID as provided by AnyDesk support
-	LicenseId string `json:"license_id"`
+	LicenseID string `json:"license_id"`
 
 	// API password as provided by AnyDesk support
-	ApiPassword string `json:"api_password"`
+	APIPassword string `json:"api_password"`
 
 	// API endpoint to be used
-	ApiEndpoint string `json:"api_endpoint"`
+	APIEndpoint string `json:"api_endpoint"`
 
 	// The http client used for API requests.
 	// Can be used or overwritten for timeout and transport layer configuration.
-	HttpClient *http.Client
+	HTTPClient *http.Client
 }
 
-// NewApi returns an initialized AnyDesk API configuration used with a Professional license.
-func NewApi(licenseId string, apiPassword string) *Api {
-	return &Api{
-		LicenseId:   licenseId,
-		ApiPassword: apiPassword,
-		ApiEndpoint: "https://v1.api.anydesk.com:8081",
-		HttpClient:  &http.Client{},
+// NewAPI returns an initialized AnyDesk API configuration used with a Professional license.
+func NewAPI(licenseID string, apiPassword string) *API {
+	return &API{
+		LicenseID:   licenseID,
+		APIPassword: apiPassword,
+		APIEndpoint: "https://v1.api.anydesk.com:8081",
+		HTTPClient:  &http.Client{},
 	}
 }
 
 // GetRequestToken generates the request token used for the API request.
-func (api *Api) GetRequestToken(request *BaseRequest) string {
-	h := hmac.New(sha1.New, []byte(api.ApiPassword))
+func (api *API) GetRequestToken(request *BaseRequest) string {
+	h := hmac.New(sha1.New, []byte(api.APIPassword))
 	h.Write([]byte(request.GetRequestString()))
 
 	return base64.StdEncoding.EncodeToString(h.Sum(nil))
 }
 
 // Do will execute a given AnyDesk API request and return the plain json as string.
-func (api *Api) Do(request ApiRequest) (body []byte, err error) {
+func (api *API) Do(request APIRequest) (body []byte, err error) {
 	base := request.GetRequestDetails()
 
 	// Check if the request supports the
@@ -102,7 +103,7 @@ func (api *Api) Do(request ApiRequest) (body []byte, err error) {
 	}
 
 	// Create a clean request
-	r, err := request.GetHttpRequest(api)
+	r, err := request.GetHTTPRequest(api)
 	if err != nil {
 		return
 	}
@@ -111,10 +112,10 @@ func (api *Api) Do(request ApiRequest) (body []byte, err error) {
 	if isDebug {
 		d := request.GetDebug()
 		d.Request = r
-		d.RequestUrl = r.URL
+		d.RequestURL = r.URL
 	}
 
-	resp, err := api.HttpClient.Do(r)
+	resp, err := api.HTTPClient.Do(r)
 
 	if err != nil {
 		return
@@ -145,7 +146,9 @@ func (api *Api) Do(request ApiRequest) (body []byte, err error) {
 	return
 }
 
-func (api *Api) DoPaginated(request PaginatedApiRequest) (body []byte, err error) {
+// DoPaginated will execute a given AnyDesk API request and return the plain json as string.
+// In addition to the simple API.Do it will engrave pagination options into the request.
+func (api *API) DoPaginated(request PaginatedAPIRequest) (body []byte, err error) {
 	// Copy the pagination into the base query details
 	p := request.GetPaginationOptions()
 	base := request.GetRequestDetails()
@@ -181,7 +184,7 @@ type BaseRequest struct {
 }
 
 // GetRequestDetails will return the base request details.
-// Required by the ApiRequest interface.
+// Required by the APIRequest interface.
 func (r *BaseRequest) GetRequestDetails() *BaseRequest {
 	return r
 }
@@ -199,9 +202,9 @@ func (r *BaseRequest) GetRequestString() string {
 	return fmt.Sprintf("%s\n%s\n%d\n%s", strings.ToUpper(r.Method), r.Resource, r.Timestamp, r.GetContentHash())
 }
 
-// GetHttpRequest will return the prepared HTTP request that can be used by a http.Client
-func (r *BaseRequest) GetHttpRequest(api *Api) (req *http.Request, err error) {
-	endpoint := fmt.Sprintf("%s%s", api.ApiEndpoint, r.Resource)
+// GetHTTPRequest will return the prepared HTTP request that can be used by a http.Client
+func (r *BaseRequest) GetHTTPRequest(api *API) (req *http.Request, err error) {
+	endpoint := fmt.Sprintf("%s%s", api.APIEndpoint, r.Resource)
 
 	req, err = http.NewRequest(r.Method, endpoint, bytes.NewBuffer(r.Content))
 	if err != nil {
@@ -209,7 +212,7 @@ func (r *BaseRequest) GetHttpRequest(api *Api) (req *http.Request, err error) {
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", fmt.Sprintf("AD %s:%d:%s", api.LicenseId, r.Timestamp, api.GetRequestToken(r)))
+	req.Header.Set("Authorization", fmt.Sprintf("AD %s:%d:%s", api.LicenseID, r.Timestamp, api.GetRequestToken(r)))
 
 	return
 }

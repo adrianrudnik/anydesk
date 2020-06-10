@@ -11,7 +11,7 @@ type SysinfoRequest struct {
 }
 
 // Do will execute the "/sysinfo" query against the given API.
-func (req *SysinfoRequest) Do(api *Api) (resp *SysinfoResponse, err error) {
+func (req *SysinfoRequest) Do(api *API) (resp *SysinfoResponse, err error) {
 	resp = newSysinfoResponse()
 
 	body, err := api.Do(req.BaseRequest)
@@ -40,7 +40,7 @@ func NewSysinfoRequest() *SysinfoRequest {
 // SysinfoResponse contains all available fields returned by the `/sysinfo` API call.
 type SysinfoResponse struct {
 	Name       string `json:"name"`
-	ApiVersion string `json:"api-ver"`
+	APIVersion string `json:"api-ver"`
 	License    struct {
 		Name             string `json:"name"`
 		ExpiresTimestamp int64  `json:"expires"`
@@ -52,9 +52,9 @@ type SysinfoResponse struct {
 			Name string `json:"name"`
 			Size int    `json:"size"`
 		} `json:"namespaces"`
-		Id          string `json:"license-id"`
+		ID          string `json:"license-id"`
 		Key         string `json:"license-key"`
-		ApiPassword string `json:"api-password"`
+		APIPassword string `json:"api-password"`
 		PowerUser   bool   `json:"power-user"` // undocumented or deprecated
 	} `json:"license"`
 	Clients struct {

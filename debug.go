@@ -15,12 +15,16 @@ func SetDebug(enable bool) {
 	isDebug = enable
 }
 
+// DebugInfo contains a set of raw details about the http transaction as sent
+// and received by the AnyDesk API.
+// If unsure, take a look at DebugInfo.Available, which indicates if any
+// debug information was collected.
 type DebugInfo struct {
 	// Is "true" when debug info was populated, "false" when no info was collected.
 	Available bool
 
 	// The full request URL sent by the http request.
-	RequestUrl *url.URL
+	RequestURL *url.URL
 
 	// The http.Request used for the request.
 	Request *http.Request
@@ -38,7 +42,7 @@ type DebugInfo struct {
 func newDebugInfo() *DebugInfo {
 	return &DebugInfo{
 		Available:    false,
-		RequestUrl:   nil,
+		RequestURL:   nil,
 		RequestBody:  nil,
 		Response:     nil,
 		ResponseBody: nil,

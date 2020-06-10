@@ -11,8 +11,8 @@ import (
 	"time"
 )
 
-// NewApiTestServer will create a AnyDesk API stub to work tests against.
-func NewApiTestServer(t *testing.T, url string, outputFile string, statusCode int) *httptest.Server {
+// NewAPITestServer will create a AnyDesk API stub to work tests against.
+func NewAPITestServer(t *testing.T, url string, outputFile string, statusCode int) *httptest.Server {
 	// Create test ts
 	return httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(statusCode)
@@ -31,16 +31,16 @@ func NewApiTestServer(t *testing.T, url string, outputFile string, statusCode in
 	}))
 }
 
-// NewApiTestClient will create a AnyDesk API client that accepts an API stub server.
-func NewApiTestClient(t *testing.T, ts *httptest.Server, licenseId string, apiPassword string) (api *Api) {
-	api = NewApi(licenseId, apiPassword)
-	api.ApiEndpoint = ts.URL
-	api.HttpClient = ts.Client()
+// NewAPITestClient will create a AnyDesk API client that accepts an API stub server.
+func NewAPITestClient(t *testing.T, ts *httptest.Server, licenseID string, apiPassword string) (api *API) {
+	api = NewAPI(licenseID, apiPassword)
+	api.APIEndpoint = ts.URL
+	api.HTTPClient = ts.Client()
 	return
 }
 
 func TestApi_GetRequestToken(t *testing.T) {
-	a := NewApi("1438129266231705", "UYETICGU2CT3KES")
+	a := NewAPI("1438129266231705", "UYETICGU2CT3KES")
 
 	r := &BaseRequest{
 		Method:    "GET",
@@ -53,10 +53,10 @@ func TestApi_GetRequestToken(t *testing.T) {
 }
 
 func TestApi_InvalidHttpStatusCode(t *testing.T) {
-	server := NewApiTestServer(t, "/", "", 400)
+	server := NewAPITestServer(t, "/", "", 400)
 	defer server.Close()
 
-	client := NewApiTestClient(t, server, "", "")
+	client := NewAPITestClient(t, server, "", "")
 
 	req := &BaseRequest{
 		Method:    "GET",
@@ -91,16 +91,16 @@ func TestRequest_GetRequestString(t *testing.T) {
 }
 
 func ExampleNewApi() {
-	api := NewApi(os.Getenv("LICENSE_ID"), os.Getenv("API_PASSWORD"))
+	api := NewAPI(os.Getenv("LICENSE_ID"), os.Getenv("API_PASSWORD"))
 
 	// Optional: Decrease timeouts
-	api.HttpClient = &http.Client{Timeout: 5 * time.Second}
+	api.HTTPClient = &http.Client{Timeout: 5 * time.Second}
 
 	// Optional: Switch to Enterprise API
-	api.ApiEndpoint = "https://yourinstance:8081"
+	api.APIEndpoint = "https://yourinstance:8081"
 
 	request := NewAuthenticationRequest()
 	response, _ := request.Do(api)
 
-	fmt.Printf("Status: %s, License: %s", response.Result, response.LicenseId)
+	fmt.Printf("Status: %s, License: %s", response.Result, response.LicenseID)
 }

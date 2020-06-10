@@ -1,7 +1,7 @@
 package anydesk
 
 func ExampleNewPaginationOptions() {
-	api := NewApi("license", "password")
+	api := NewAPI("license", "password")
 	request := NewSessionListRequest(nil)
 
 	// change default values

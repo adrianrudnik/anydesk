@@ -11,7 +11,7 @@ type AuthenticationRequest struct {
 }
 
 // Do will execute the "/auth" query against the given API.
-func (req *AuthenticationRequest) Do(api *Api) (r *AuthenticationResponse, err error) {
+func (req *AuthenticationRequest) Do(api *API) (r *AuthenticationResponse, err error) {
 	r = newAuthenticationResponse()
 
 	body, err := api.Do(req)
@@ -62,7 +62,7 @@ type AuthenticationResponse struct {
 	ContentHash string `json:"content-hash"`
 
 	// Echoing the API license ID on success.
-	LicenseId string `json:"license-id"`
+	LicenseID string `json:"license-id"`
 }
 
 func newAuthenticationResponse() *AuthenticationResponse {

@@ -7,7 +7,7 @@
 // you can enable the debug mode and request request and response information
 // directly from results.
 //
-//   api := NewApi("license", "password")
+//   api := NewAPI("license", "password")
 //   r := NewAuthenticationRequest()
 //
 //   SetDebug(true)
@@ -15,7 +15,7 @@
 //
 //   fmt.Printf(
 //       "Url: %s, Response body: %s",
-//       r.GetDebug().RequestUrl,
+//       r.GetDebug().RequestURL,
 //       r.GetDebug().ResponseBody,
 //   )
 //

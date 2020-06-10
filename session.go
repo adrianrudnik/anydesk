@@ -9,12 +9,18 @@ import (
 	"time"
 )
 
+// SessionDirection defines the that connection direction  on a paginated API request.
 type SessionDirection string
 
 const (
-	DirectionIn    SessionDirection = "in"
+	// DirectionIn will filter by incoming sessions only.
+	DirectionIn SessionDirection = "in"
+
+	// DirectionInOut will show all sessions, regardsless of their direction.
 	DirectionInOut SessionDirection = "inout"
-	DirectionOut   SessionDirection = "out"
+
+	// DirectionOut will filter by outgoing sessions only.
+	DirectionOut SessionDirection = "out"
 )
 
 // SessionCommentChangeRequest is used to patch the /session/{id} API resource.
@@ -24,7 +30,7 @@ type SessionCommentChangeRequest struct {
 }
 
 // Do will execute the "/auth" query against the given API.
-func (req *SessionCommentChangeRequest) Do(api *Api) (err error) {
+func (req *SessionCommentChangeRequest) Do(api *API) (err error) {
 	// Execute the request by handing it over to the given API configuration
 	body, err := api.Do(req)
 	if err != nil {
@@ -67,9 +73,10 @@ type SessionListRequest struct {
 	*PaginationOptions
 }
 
+// SessionListSearch defines all configurable search parameters for NewSessionListRequest()
 type SessionListSearch struct {
 	// Limit search to client ID
-	ClientId string
+	ClientID string
 
 	// Limit search to given sessiond direction, [in, out, inout]
 	Direction SessionDirection
@@ -81,7 +88,8 @@ type SessionListSearch struct {
 	TimeTo *time.Time
 }
 
-func (req *SessionListRequest) Do(api *Api) (err error) {
+// Do will execute the "/sessions" query against the given API.
+func (req *SessionListRequest) Do(api *API) (err error) {
 	body, err := api.DoPaginated(req)
 
 	ioutil.WriteFile("out.json", body, 0644)
@@ -93,14 +101,15 @@ func (req *SessionListRequest) Do(api *Api) (err error) {
 	return
 }
 
+// NewSessionListRequest returns a new session list query.
 func NewSessionListRequest(search *SessionListSearch) *SessionListRequest {
 	// Handle search
-	var q *url.Values = nil
+	var q *url.Values
 	if search != nil {
 		q = &url.Values{}
 
-		if search.ClientId != "" {
-			q.Set("cid", search.ClientId)
+		if search.ClientID != "" {
+			q.Set("cid", search.ClientID)
 		}
 
 		if search.Direction == DirectionInOut ||

@@ -10,7 +10,7 @@ import (
 )
 
 func ExampleSetDebug() {
-	api := NewApi("license", "password")
+	api := NewAPI("license", "password")
 
 	SetDebug(true)
 
@@ -19,7 +19,7 @@ func ExampleSetDebug() {
 
 	fmt.Printf(
 		"Url: %s, Response body: %s",
-		r.GetDebug().RequestUrl,
+		r.GetDebug().RequestURL,
 		r.GetDebug().ResponseBody,
 	)
 }
@@ -27,10 +27,10 @@ func ExampleSetDebug() {
 func TestApi_DebugEnabled(t *testing.T) {
 	SetDebug(true)
 
-	server := NewApiTestServer(t, "/test?demo=123", "", 201)
+	server := NewAPITestServer(t, "/test?demo=123", "", 201)
 	defer server.Close()
 
-	client := NewApiTestClient(t, server, "", "")
+	client := NewAPITestClient(t, server, "", "")
 
 	q := &url.Values{}
 	q.Set("demo", strconv.FormatInt(123, 10))
@@ -50,11 +50,11 @@ func TestApi_DebugEnabled(t *testing.T) {
 	a.Equal(true, req.GetDebug().Available)
 	a.NotNil(req.GetDebug().Response)
 	a.NotNil(req.GetDebug().Request)
-	a.NotNil(req.GetDebug().RequestUrl)
+	a.NotNil(req.GetDebug().RequestURL)
 
-	a.Equal("/test", req.GetDebug().RequestUrl.Path)
-	a.Equal("demo=123", req.GetDebug().RequestUrl.RawQuery)
-	a.Equal("127.0.0.1", req.GetDebug().RequestUrl.Hostname())
+	a.Equal("/test", req.GetDebug().RequestURL.Path)
+	a.Equal("demo=123", req.GetDebug().RequestURL.RawQuery)
+	a.Equal("127.0.0.1", req.GetDebug().RequestURL.Hostname())
 
 	SetDebug(false)
 }

@@ -1,12 +1,17 @@
 package anydesk
 
+// SortOrder defines that ordering you want on a paginated API request.
 type SortOrder string
 
 const (
-	OrderAsc  SortOrder = "asc"
+	// OrderAsc indicates that you want to receive the results ascending order.
+	OrderAsc SortOrder = "asc"
+
+	// OrderDesc indicats that you want to receive the results in descencing order.
 	OrderDesc SortOrder = "desc"
 )
 
+// PaginationOptions contain all configurable settings for the pagination of API requests.
 type PaginationOptions struct {
 	// Result offset, starting at 0
 	Offset int64 `json:"-"`
@@ -31,6 +36,7 @@ func NewPaginationOptions() *PaginationOptions {
 	}
 }
 
+// GetPaginationOptions returns the currently configured pagination settings.
 func (po *PaginationOptions) GetPaginationOptions() *PaginationOptions {
 	return po
 }
