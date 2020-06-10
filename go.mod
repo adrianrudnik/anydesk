@@ -1,5 +1,7 @@
-module github.com/adrianrudnik/anydesk-api
+module github.com/adrianrudnik/anydesk
 
 go 1.14
 
-require github.com/stretchr/testify v1.6.1
+require (
+	github.com/stretchr/testify v1.6.1
+)

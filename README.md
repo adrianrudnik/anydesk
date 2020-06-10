@@ -32,3 +32,6 @@ func main() {
 	fmt.Printf("Status: %s, License: %s", response.Result, response.LicenseId)
 }
 ```
+
+https://proxy.golang.org/github.com/adrianrudnik/anydesk-api/@v/v0.info
+
