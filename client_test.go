@@ -23,6 +23,9 @@ func TestNewClientDetailRequest(t *testing.T) {
 	a.Equal(int64(100000000), resp.ClientID)
 	a.Equal("1.2.3", resp.ClientVersion)
 	a.Equal("TEST-COMMENTA", resp.Comment)
+	a.True(resp.Online)
+	a.Equal(int64(456), resp.OnlineSinceSeconds)
+	a.Equal(time.Now().Unix(), resp.OnlineSince().Add(time.Second*time.Duration(resp.OnlineSinceSeconds)).Unix())
 
 	a.Len(resp.LastSessions, 2)
 

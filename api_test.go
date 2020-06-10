@@ -46,7 +46,6 @@ func TestApi_GetRequestToken(t *testing.T) {
 		Method:    "GET",
 		Resource:  "/auth",
 		Timestamp: 1445440997,
-		Content:   []byte(""),
 	}
 
 	assert.Equal(t, "T2YsCOj2o3Rb79nLPUgx3Gl+nnw=", a.GetRequestToken(r))
@@ -62,10 +61,25 @@ func TestApi_InvalidHttpStatusCode(t *testing.T) {
 		Method:    "GET",
 		Resource:  "/",
 		Timestamp: time.Now().Unix(),
-		Content:   []byte{},
 	}
 	_, err := client.Do(req)
 	assert.Error(t, err)
+}
+
+func TestApi_NotFoundStatusCode(t *testing.T) {
+	server := NewAPITestServer(t, "/", "", 404)
+	defer server.Close()
+
+	client := NewAPITestClient(t, server, "", "")
+
+	req := &BaseRequest{
+		Method:    "GET",
+		Resource:  "/",
+		Timestamp: time.Now().Unix(),
+	}
+	_, err := client.Do(req)
+	assert.Error(t, err)
+	assert.IsType(t, &APINotFoundError{}, err)
 }
 
 func TestRequest_GetContentHash(t *testing.T) {
@@ -73,7 +87,6 @@ func TestRequest_GetContentHash(t *testing.T) {
 		Method:    "GET",
 		Resource:  "/auth",
 		Timestamp: 1445440997,
-		Content:   []byte(""),
 	}
 
 	assert.Equal(t, "2jmj7l5rSw0yVb/vlWAYkK/YBwk=", r.GetContentHash())
