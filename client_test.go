@@ -67,11 +67,20 @@ func ExampleNewClientDetailRequest() {
 	response, _ := request.Do(api)
 
 	fmt.Printf(
-		"Version: %s, Started %s (%d seconds)",
+		"ID: %s, Alias: %s, Version: %s",
+		response.ClientID,
+		response.Alias,
 		response.ClientVersion,
-		response.LastSessions[0].StartTime(),
-		response.LastSessions[0].DurationInSeconds,
 	)
+
+	for _, client := range response.LastSessions {
+		fmt.Printf(
+			"Start: %s, %d seconds total, Comment: %s",
+			client.StartTime().Format(time.RFC3339),
+			client.DurationInSeconds,
+			client.Comment,
+		)
+	}
 }
 
 func TestNewClientListRequest(t *testing.T) {
@@ -109,4 +118,54 @@ func TestNewClientListRequest(t *testing.T) {
 	a.Equal("", n8.Comment)
 	a.False(n8.Online)
 	a.Equal(int64(0), n8.OnlineSinceSeconds)
+}
+
+func ExampleNewClientListRequest() {
+	api := NewAPI(os.Getenv("LICENSE_ID"), os.Getenv("API_PASSWORD"))
+
+	// Define optional search parameters
+	search := &ClientListSearch{
+		Online: true,
+	}
+
+	request := NewClientListRequest(search)
+
+	// Define optional pagination settings
+	request.Offset = 10
+	request.Limit = 5
+
+	response, _ := request.Do(api)
+
+	// Access the resulting pagination information
+	fmt.Printf(
+		"Found: %d, Offset: %d, Selected: %d",
+		response.Count,
+		response.Offset,
+		response.Selected,
+	)
+
+	// Iterate through the result set
+	if len(response.List) == 0 {
+		return
+	}
+
+	for _, client := range response.List {
+		fmt.Printf(
+			"ID: %d, Alias: %s, Version: %s",
+			client.ClientID,
+			client.Alias,
+			client.ClientVersion,
+		)
+	}
+
+	// If you used result pagination, you could prepare the next request
+	if options, hasMore := response.HasMore(request); hasMore {
+		// prepare next request
+		request = NewClientListRequest(search)
+
+		// options will contain the previous pagination options with shifted offse
+		// to help you retrieve the next result set with the same settings.
+		request.PaginationOptions = options
+		response, _ = request.Do(api)
+	}
 }

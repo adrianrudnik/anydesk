@@ -3,6 +3,7 @@ package anydesk
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"log"
 	"net/http"
 	"os"
 	"testing"
@@ -26,7 +27,14 @@ func ExampleNewAuthenticationRequest() {
 	api := NewAPI(os.Getenv("LICENSE_ID"), os.Getenv("API_PASSWORD"))
 
 	request := NewAuthenticationRequest()
-	response, _ := request.Do(api)
+	response, err := request.Do(api)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if response.Result != "success" {
+		log.Fatalf("response failed: %s %s", response.Code, response.Error)
+	}
 
 	fmt.Printf("Status: %s, License: %s", response.Result, response.LicenseID)
 }

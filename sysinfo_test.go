@@ -57,5 +57,6 @@ func ExampleNewSysinfoRequest() {
 		response.APIVersion,
 		response.License.MaxSessions,
 		response.Sessions.Active,
+		// ...
 	)
 }

@@ -55,3 +55,21 @@ type PaginatedResult struct {
 	// Applied limit of the current result
 	Limit int64 `json:"limit"`
 }
+
+// HasMore will indicate if more results could be fetched and also return
+// a possible version of the next pages page options.
+func (pr *PaginatedResult) HasMore(request PaginatedAPIRequest) (*PaginationOptions, bool) {
+	if pr.Count <= pr.Offset+pr.Selected {
+		// no more results expected
+		return nil, false
+	}
+
+	prev := request.GetPaginationOptions()
+
+	return &PaginationOptions{
+		Offset: pr.Offset + pr.Limit,
+		Limit:  pr.Limit,
+		Sort:   prev.Sort,
+		Order:  prev.Order,
+	}, true
+}

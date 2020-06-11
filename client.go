@@ -22,7 +22,6 @@ type ClientNode struct {
 	Online bool `json:"online"`
 
 	// Comment for the given client, as defined in the address book.
-	// Only available if queried by ClientDetailRequest.
 	Comment string `json:"comment"`
 
 	// Seconds since the client came online.
