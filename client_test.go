@@ -73,3 +73,40 @@ func ExampleNewClientDetailRequest() {
 		response.LastSessions[0].DurationInSeconds,
 	)
 }
+
+func TestNewClientListRequest(t *testing.T) {
+	server := NewAPITestServer(t, "/clients?limit=-1&offset=0&order=desc", "./_tests/client_list_all.json", 200)
+	defer server.Close()
+
+	client := NewAPITestClient(t, server, "", "")
+
+	req := NewClientListRequest(nil)
+	resp, err := req.Do(client)
+
+	a := assert.New(t)
+	a.NoError(err)
+
+	a.Equal(int64(321), resp.Count)
+	a.Equal(int64(654), resp.Limit)
+	a.Equal(int64(528), resp.Offset)
+	a.Equal(int64(671), resp.Selected)
+	a.True(resp.Online)
+
+	a.Len(resp.List, 8)
+
+	n2 := resp.List[1]
+	a.Equal("", n2.Alias)
+	a.Equal(int64(122), n2.ClientID)
+	a.Equal("5.4.0", n2.ClientVersion)
+	a.Equal("TEST-02", n2.Comment)
+	a.True(n2.Online)
+	a.Equal(int64(49215), n2.OnlineSinceSeconds)
+
+	n8 := resp.List[7]
+	a.Equal("demo@ad", n8.Alias)
+	a.Equal(int64(128), n8.ClientID)
+	a.Equal("5.5.3", n8.ClientVersion)
+	a.Equal("", n8.Comment)
+	a.False(n8.Online)
+	a.Equal(int64(0), n8.OnlineSinceSeconds)
+}

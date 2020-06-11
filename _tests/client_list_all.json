@@ -1,0 +1,81 @@
+{
+  "count": 321,
+  "limit": 654,
+  "list": [
+    {
+      "alias": null,
+      "cid": 121,
+      "client-version": "5.4.0",
+      "comment": "TEST-01",
+      "online": true,
+      "online-time": 49215,
+      "user_ref": null
+    },
+    {
+      "alias": null,
+      "cid": 122,
+      "client-version": "5.4.0",
+      "comment": "TEST-02",
+      "online": true,
+      "online-time": 49215,
+      "user_ref": null
+    },
+    {
+      "alias": null,
+      "cid": 123,
+      "client-version": "5.2.2",
+      "comment": "TEST-03",
+      "online": false,
+      "online-time": -1,
+      "user_ref": null
+    },
+    {
+      "alias": null,
+      "cid": 124,
+      "client-version": "5.4.0",
+      "comment": null,
+      "online": false,
+      "online-time": -1,
+      "user_ref": null
+    },
+    {
+      "alias": null,
+      "cid": 125,
+      "client-version": "5.4.0",
+      "comment": null,
+      "online": false,
+      "online-time": -1,
+      "user_ref": null
+    },
+    {
+      "alias": null,
+      "cid": 126,
+      "client-version": "5.4.0",
+      "comment": null,
+      "online": false,
+      "online-time": -1,
+      "user_ref": null
+    },
+    {
+      "alias": null,
+      "cid": 127,
+      "client-version": "5.4.0",
+      "comment": null,
+      "online": false,
+      "online-time": -1,
+      "user_ref": null
+    },
+    {
+      "alias": "demo@ad",
+      "cid": 128,
+      "client-version": "5.5.3",
+      "comment": null,
+      "online": false,
+      "online-time": null,
+      "user_ref": null
+    }
+  ],
+  "offset": 528,
+  "online": true,
+  "selected": 671
+}
