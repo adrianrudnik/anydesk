@@ -4,7 +4,13 @@ Unoffical REST API client, written in Go.
 
 [![license](https://img.shields.io/github/license/adrianrudnik/anydesk)](https://github.com/adrianrudnik/anydesk/blob/master/LICENSE)
 [![GoDoc](https://godoc.org/github.com/adrianrudnik/anydesk?status.svg)](https://godoc.org/adrianrudnik/anydesk)
-[![go report card](https://goreportcard.com/badge/github.com/adrianrudnik/anydesk-api)](https://goreportcard.com/report/github.com/adrianrudnik/anydesk)
+[![go report card](https://goreportcard.com/badge/github.com/adrianrudnik/anydesk)](https://goreportcard.com/report/github.com/adrianrudnik/anydesk)
+
+## Installation
+
+```bash
+go get github.com/github.com/adrianrudnik/anydesk
+```
 
 ## Usage
 
