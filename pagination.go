@@ -40,3 +40,18 @@ func NewPaginationOptions() *PaginationOptions {
 func (po *PaginationOptions) GetPaginationOptions() *PaginationOptions {
 	return po
 }
+
+// PaginatedResult contains the current pagination settings as returned by the API.
+type PaginatedResult struct {
+	// Total result count
+	Count int64 `json:"count"`
+
+	// Unknown
+	Selected int64 `json:"selected"`
+
+	// Applied offset of the current result
+	Offset int64 `json:"offset"`
+
+	// Applied limit of the current result
+	Limit int64 `json:"limit"`
+}

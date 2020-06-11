@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"strconv"
 	"testing"
-	"time"
 )
 
 func ExampleSetDebug() {
@@ -36,11 +35,9 @@ func TestApi_DebugEnabled(t *testing.T) {
 	q.Set("demo", strconv.FormatInt(123, 10))
 
 	req := &BaseRequest{
-		Method:    "GET",
-		Resource:  "/test",
-		Query:     q,
-		Timestamp: time.Now().Unix(),
-		Content:   []byte{},
+		Method:   "GET",
+		Resource: "/test",
+		Query:    q,
 	}
 	_, err := client.Do(req)
 

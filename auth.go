@@ -2,7 +2,6 @@ package anydesk
 
 import (
 	"encoding/json"
-	"time"
 )
 
 // AuthenticationRequest is used to read the "/auth" API resource.
@@ -31,9 +30,8 @@ func (req *AuthenticationRequest) Do(api *API) (r *AuthenticationResponse, err e
 func NewAuthenticationRequest() *AuthenticationRequest {
 	return &AuthenticationRequest{
 		&BaseRequest{
-			Method:    "GET",
-			Resource:  "/auth",
-			Timestamp: time.Now().Unix(),
+			Method:   "GET",
+			Resource: "/auth",
 		},
 	}
 }

@@ -11,3 +11,14 @@ func (e *APINotFoundError) Error() string {
 
 	return "not found"
 }
+
+// APINoResultsError will be thrown when a list API request delivered no results.
+type APINoResultsError struct{}
+
+func (e *APINoResultsError) Error() string {
+	if e == nil {
+		return "<nil>"
+	}
+
+	return "not results"
+}

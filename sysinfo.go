@@ -2,7 +2,6 @@ package anydesk
 
 import (
 	"encoding/json"
-	"time"
 )
 
 // SysinfoRequest is used to read the "/sysinfo" API resource.
@@ -30,9 +29,8 @@ func (req *SysinfoRequest) Do(api *API) (resp *SysinfoResponse, err error) {
 func NewSysinfoRequest() *SysinfoRequest {
 	return &SysinfoRequest{
 		&BaseRequest{
-			Method:    "GET",
-			Resource:  "/sysinfo",
-			Timestamp: time.Now().Unix(),
+			Method:   "GET",
+			Resource: "/sysinfo",
 		},
 	}
 }

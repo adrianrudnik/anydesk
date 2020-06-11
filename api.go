@@ -13,6 +13,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -77,6 +78,9 @@ func (api *API) GetRequestToken(request *BaseRequest) string {
 
 // Do will execute a given AnyDesk API request and return the plain json as string.
 func (api *API) Do(request APIRequest) (body []byte, err error) {
+	// Insert current timestamp so we can sign the request
+	request.GetRequestDetails().Timestamp = time.Now().Unix()
+
 	base := request.GetRequestDetails()
 
 	// Check if the request supports the
@@ -174,7 +178,22 @@ func (api *API) DoPaginated(request PaginatedAPIRequest) (body []byte, err error
 		base.Query.Set("order", string(p.Order))
 	}
 
-	return api.Do(request)
+	body, err = api.Do(request)
+
+	pagination := &PaginatedResult{}
+
+	// Parse pagination info from request
+	err = json.Unmarshal(body, pagination)
+	if err != nil {
+		return
+	}
+
+	if pagination.Selected == 0 {
+		err = &APINoResultsError{}
+		return
+	}
+
+	return
 }
 
 // BaseRequest contains the base information required to work against the API.

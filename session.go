@@ -18,10 +18,10 @@ type SessionNode struct {
 	SessionID string `json:"sid"`
 
 	// The source client responsible for this session.
-	Source *ClientNode `json:"from"`
+	Source *ClientSlimNode `json:"from"`
 
 	// The connected client of the session.
-	Target *ClientNode `json:"to"`
+	Target *ClientSlimNode `json:"to"`
 
 	// Connection start as unix-timestamp.
 	StartTimestamp int64 `json:"start-time"`
@@ -101,9 +101,8 @@ func NewSessionCommentChangeRequest(session string, comment string) *SessionComm
 
 	return &SessionCommentChangeRequest{
 		&BaseRequest{
-			Method:    "PATCH",
-			Resource:  fmt.Sprintf("/sessions/%s", session),
-			Timestamp: time.Now().Unix(),
+			Method:   "PATCH",
+			Resource: fmt.Sprintf("/sessions/%s", session),
 		},
 		v,
 	}
@@ -115,7 +114,7 @@ type SessionListRequest struct {
 	*PaginationOptions
 }
 
-// SessionListSearch defines all configurable search parameters for NewSessionListRequest()
+// SessionListSearch configures the search  params for NewSessionListRequest()
 type SessionListSearch struct {
 	// Limit search to client ID
 	ClientID int64
@@ -167,16 +166,13 @@ func NewSessionListRequest(search *SessionListSearch) *SessionListRequest {
 		if !search.TimeTo.IsZero() {
 			q.Set("to", strconv.FormatInt(search.TimeTo.Unix(), 10))
 		}
-
-		q.Set("limit", strconv.FormatInt(10, 10))
 	}
 
 	return &SessionListRequest{
 		BaseRequest: &BaseRequest{
-			Method:    "GET",
-			Resource:  "/sessions",
-			Query:     q,
-			Timestamp: time.Now().Unix(),
+			Method:   "GET",
+			Resource: "/sessions",
+			Query:    q,
 		},
 		PaginationOptions: NewPaginationOptions(),
 	}

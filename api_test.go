@@ -58,9 +58,8 @@ func TestApi_InvalidHttpStatusCode(t *testing.T) {
 	client := NewAPITestClient(t, server, "", "")
 
 	req := &BaseRequest{
-		Method:    "GET",
-		Resource:  "/",
-		Timestamp: time.Now().Unix(),
+		Method:   "GET",
+		Resource: "/",
 	}
 	_, err := client.Do(req)
 	assert.Error(t, err)
@@ -73,9 +72,8 @@ func TestApi_NotFoundStatusCode(t *testing.T) {
 	client := NewAPITestClient(t, server, "", "")
 
 	req := &BaseRequest{
-		Method:    "GET",
-		Resource:  "/",
-		Timestamp: time.Now().Unix(),
+		Method:   "GET",
+		Resource: "/",
 	}
 	_, err := client.Do(req)
 	assert.Error(t, err)
@@ -103,7 +101,7 @@ func TestRequest_GetRequestString(t *testing.T) {
 	assert.Equal(t, "GET\n/auth\n1445440997\n2jmj7l5rSw0yVb/vlWAYkK/YBwk=", r.GetRequestString())
 }
 
-func ExampleNewApi() {
+func ExampleNewAPI() {
 	api := NewAPI(os.Getenv("LICENSE_ID"), os.Getenv("API_PASSWORD"))
 
 	// Optional: Decrease timeouts

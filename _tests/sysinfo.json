@@ -15,7 +15,14 @@
     "max-sessions": 4,
     "name": "TEST_LICENSE_NAME",
     "namespaces": [
-
+      {
+        "name": "demo1",
+        "size": 20
+      },
+      {
+        "name": "demo2",
+        "size": 1
+      }
     ],
     "power-user": true
   },
