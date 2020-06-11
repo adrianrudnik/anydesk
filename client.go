@@ -98,7 +98,7 @@ type ClientListRequest struct {
 // ClientListSearch configures the search  params for NewClientListRequest.
 type ClientListSearch struct {
 	// Limits search to online clients.
-	// Setting this to false will not list onyl offline clients.
+	// Setting this to false will not list only offline clients.
 	Online bool
 }
 
