@@ -22,3 +22,13 @@ func (e *APINoResultsError) Error() string {
 
 	return "not results"
 }
+
+type APIBadCredentialsError struct{}
+
+func (e *APIBadCredentialsError) Error() string {
+	if e == nil {
+		return "<nil>"
+	}
+
+	return "bad credentials"
+}

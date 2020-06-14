@@ -33,6 +33,11 @@ type ClientNode struct {
 	LastSessions []SessionNode `json:"last-sessions"`
 }
 
+func (cn *ClientNode) OnlineSince() time.Time {
+	n := time.Now()
+	return n.Add(time.Second * (-1 * time.Duration(cn.OnlineSinceSeconds)))
+}
+
 // ClientSlimNode is the common short representation of the API.
 // It does not contain all available information and is used in list queries.
 type ClientSlimNode struct {

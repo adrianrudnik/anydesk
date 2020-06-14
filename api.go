@@ -19,6 +19,9 @@ import (
 const (
 	// Infinite is used by various calls to indicate unlimited results/items
 	Infinite = int64(-1)
+
+	// The default API endpoint
+	DefaultApiEndpoint = "https://v1.api.anydesk.com:8081"
 )
 
 // APIRequest is the basic interface used for all compatible API requests.
@@ -63,7 +66,7 @@ func NewAPI(licenseID string, apiPassword string) *API {
 	return &API{
 		LicenseID:   licenseID,
 		APIPassword: apiPassword,
-		APIEndpoint: "https://v1.api.anydesk.com:8081",
+		APIEndpoint: DefaultApiEndpoint,
 		HTTPClient:  &http.Client{},
 	}
 }
@@ -147,6 +150,11 @@ func (api *API) Do(request APIRequest) (body []byte, err error) {
 		return
 	}
 
+	if resp.StatusCode == http.StatusUnauthorized {
+		err = &APIBadCredentialsError{}
+		return
+	}
+
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		err = errors.New(resp.Status)
 		return
@@ -179,6 +187,9 @@ func (api *API) DoPaginated(request PaginatedAPIRequest) (body []byte, err error
 	}
 
 	body, err = api.Do(request)
+	if err != nil {
+		return
+	}
 
 	pagination := &PaginatedResult{}
 
